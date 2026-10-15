@@ -1,0 +1,7 @@
+DEVLOG 02 — WINDOWS + APPS
+
+The desktop now has reusable window behavior. Every window gets a header handle, close button, focus ordering, and pointer dragging. I also added Field Notes, which creates its note selector from a JavaScript array instead of hard-coding each entry in the HTML.
+
+The main design decision was to make the windows feel like clipped paper cards rather than glass panels. They share mechanics, but each app has a different internal rhythm.
+
+Next: add a second app with a more visual data view, then build one feature outside the guide.

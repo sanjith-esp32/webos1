@@ -1,0 +1,5 @@
+DEVLOG 03 — POLISH + EXTRA FEATURE
+
+Pulseboard is the second app: a small observatory for a week of focus. It gives the desktop a visual window alongside the text-based notes app. I also added Focus mode, the extra feature for this build. Press F or click Focus mode to dim the entire desk and start a timer; Escape returns to the windows.
+
+The final pass focused on public access: there is no password, no account flow, and no required dependency install. Anyone can open the page and try the windows immediately.

@@ -1,0 +1,5 @@
+DEVLOG 01 — FOUNDATION
+
+I started with the guide's first two ideas: a personal welcome screen and a desktop with a clock. Instead of copying the sample look, I chose a quiet field-station direction: warm paper, ink, faded teal, and coral signals. The desktop copy is intentionally sparse so the windows feel like objects placed on a desk.
+
+Next: turn the welcome screen into a reusable draggable window and add real apps to the shelf.
