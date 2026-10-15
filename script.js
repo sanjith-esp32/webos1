@@ -32,8 +32,11 @@ function makeDraggable(windowElement) {
     handle.setPointerCapture(event.pointerId);
     pointerStart = { x: event.clientX, y: event.clientY };
     const bounds = windowElement.getBoundingClientRect();
-    origin = { x: bounds.left, y: bounds.top };
+    windowElement.style.left = `${bounds.left}px`;
+    windowElement.style.top = `${bounds.top}px`;
+    windowElement.style.animation = 'none';
     windowElement.style.transform = 'none';
+    origin = { x: bounds.left, y: bounds.top };
   });
 
   handle.addEventListener('pointermove', (event) => {
