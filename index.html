@@ -15,8 +15,8 @@
     <div class="desktop-grain" aria-hidden="true"></div>
     <header class="topbar" id="topbar">
       <button class="brand-button" id="openWelcome" type="button" aria-label="Open LumenOS welcome window"><span class="brand-mark">L</span><span>LumenOS</span></button>
-      <div class="topbar-center"><span class="status-dot"></span><span id="statusText">All systems calm</span></div>
-      <div class="topbar-right"><span class="focus-label" id="focusLabel"></span><time id="clock">--:--</time></div>
+      <div class="topbar-center"><span class="status-dot"></span><span id="statusText">Two tools ready</span></div>
+      <div class="topbar-right"><time id="clock">--:--</time></div>
     </header>
 
     <section class="desktop-copy" aria-label="Desktop introduction">
@@ -26,34 +26,26 @@
     </section>
 
     <nav class="app-shelf" aria-label="Applications">
-      <button class="app-tile" data-open="field-notes" type="button"><span class="app-icon notes-icon">✦</span><span>Field Notes</span><small>collect</small></button>
-      <button class="app-tile" data-open="pulseboard" type="button"><span class="app-icon pulse-icon">◒</span><span>Pulseboard</span><small>observe</small></button>
-      <button class="app-tile" data-open="about" type="button"><span class="app-icon about-icon">↗</span><span>About</span><small>orientation</small></button>
-      <button class="app-tile" id="focusModeButton" type="button"><span class="app-icon focus-icon">◌</span><span>Focus mode</span><small>extra feature</small></button>
+      <button class="app-tile" data-open="led" type="button"><span class="app-icon led-icon">●</span><span>LED</span><small>toggle light</small></button>
+      <button class="app-tile" data-open="window-maker" type="button"><span class="app-icon maker-icon">＋</span><span>Window Maker</span><small>add windows</small></button>
     </nav>
 
     <div class="window-window is-open" id="welcome" data-window="welcome" style="--window-x: 58%; --window-y: 47%;">
       <div class="window-bar" data-drag-handle><span class="window-kicker">START HERE</span><strong>Welcome / 01</strong><button class="window-close" data-close="welcome" type="button" aria-label="Close welcome window">×</button></div>
-      <div class="window-body welcome-body"><div class="welcome-glyph">✺</div><p class="eyebrow">LUMENOS IS ONLINE</p><h2>A desk for<br /><span>unfinished thoughts.</span></h2><p class="body-copy">This is a tiny personal OS built for wandering between ideas. Open a few windows, move them around, and see what catches your attention.</p><div class="welcome-footer"><span class="mono">NO PASSWORD REQUIRED</span><button class="text-link" data-open="field-notes" type="button">Open the notes <span>→</span></button></div></div>
+      <div class="window-body welcome-body"><div class="welcome-glyph">✺</div><p class="eyebrow">LUMENOS IS ONLINE</p><h2>A desk for<br /><span>small experiments.</span></h2><p class="body-copy">This is a tiny personal OS for trying simple tools. Turn on a light, make a new window, and move things around until the desk feels like yours.</p><div class="welcome-footer"><span class="mono">NO PASSWORD REQUIRED</span><button class="text-link" data-open="led" type="button">Try the LED <span>→</span></button></div></div>
     </div>
 
-    <div class="window-window" id="field-notes" data-window="field-notes" style="--window-x: 34%; --window-y: 50%;">
-      <div class="window-bar" data-drag-handle><span class="window-kicker">COLLECTION</span><strong>Field Notes</strong><button class="window-close" data-close="field-notes" type="button" aria-label="Close field notes">×</button></div>
-      <div class="window-body notes-layout"><aside class="note-list" id="noteList" aria-label="Notes"></aside><article class="note-reading" id="noteReading" aria-live="polite"></article></div>
+    <div class="window-window" id="led" data-window="led" style="--window-x: 35%; --window-y: 55%;">
+      <div class="window-bar" data-drag-handle><span class="window-kicker">HARDWARE</span><strong>LED</strong><button class="window-close" data-close="led" type="button" aria-label="Close LED window">×</button></div>
+      <div class="window-body welcome-body led-body"><p class="eyebrow">CLICK TO TOGGLE</p><button class="led-light" id="ledLight" type="button" aria-pressed="false" style="display:grid;place-items:center;width:110px;height:110px;margin:20px 0;border:0;border-radius:50%;cursor:pointer;background:#263237;box-shadow:inset 0 0 0 12px rgba(243,239,230,.12),0 12px 30px rgba(38,50,55,.2);"><span style="display:block;width:24px;height:24px;border-radius:50%;background:#687477;"></span></button><h2 id="ledState">OFF</h2><p class="body-copy">A tiny digital light switch. Try it a few times.</p></div>
     </div>
 
-    <div class="window-window" id="pulseboard" data-window="pulseboard" style="--window-x: 66%; --window-y: 66%;">
-      <div class="window-bar" data-drag-handle><span class="window-kicker">OBSERVATORY</span><strong>Pulseboard</strong><button class="window-close" data-close="pulseboard" type="button" aria-label="Close pulseboard">×</button></div>
-      <div class="window-body pulse-body"><div class="pulse-head"><div><p class="eyebrow">THIS WEEK</p><h2>Soft focus,<br /><span>strong output.</span></h2></div><span class="pulse-number">72<span>%</span></span></div><div class="bars" aria-label="A chart showing focus across the week"><span style="--bar: 48%"><i>MON</i></span><span style="--bar: 62%"><i>TUE</i></span><span style="--bar: 38%"><i>WED</i></span><span style="--bar: 86%"><i>THU</i></span><span style="--bar: 72%"><i>FRI</i></span><span style="--bar: 54%"><i>SAT</i></span><span style="--bar: 66%"><i>SUN</i></span></div><p class="pulse-caption"><span class="status-dot"></span> A good week is not a perfect week.</p></div>
+    <div class="window-window" id="window-maker" data-window="window-maker" style="--window-x: 66%; --window-y: 54%;">
+      <div class="window-bar" data-drag-handle><span class="window-kicker">TOOLBOX</span><strong>Window Maker</strong><button class="window-close" data-close="window-maker" type="button" aria-label="Close Window Maker">×</button></div>
+      <div class="window-body welcome-body maker-body"><p class="eyebrow">DYNAMIC DESKTOP</p><h2>Make some<br /><span>room.</span></h2><p class="body-copy">Click the button to add a fresh draggable window to the desktop.</p><button class="maker-button" id="addWindowButton" type="button" style="margin:18px 0;padding:12px 15px;border:1px solid #263237;background:#87b5aa;cursor:pointer;font-weight:600;">Add a window <span>＋</span></button><p class="mono" id="windowCount">WINDOWS CREATED: 0</p></div>
     </div>
 
-    <div class="window-window" id="about" data-window="about" style="--window-x: 50%; --window-y: 55%;">
-      <div class="window-bar" data-drag-handle><span class="window-kicker">ORIENTATION</span><strong>About LumenOS</strong><button class="window-close" data-close="about" type="button" aria-label="Close about window">×</button></div>
-      <div class="window-body about-body"><p class="eyebrow">A PERSONAL WEBOS</p><h2>Built to feel<br /><span>like a place.</span></h2><p class="body-copy">LumenOS is a browser-based desktop for exploring a small collection of thoughts. It borrows the mechanics of a classic webOS, then adds a calmer visual language and a focus mode for the moments when the screen should get out of the way.</p><div class="about-meta"><span>BUILD 01</span><span>HTML / CSS / JS</span><span>PUBLIC ACCESS</span></div></div>
-    </div>
-
-    <div class="focus-overlay" id="focusOverlay" aria-hidden="true"><div class="focus-card"><span class="focus-orbit">◌</span><p class="eyebrow">FOCUS MODE</p><h2>One thing<br /><span>at a time.</span></h2><p id="focusTimer">00:00</p><button class="text-link" id="exitFocus" type="button">Return to desk <span>→</span></button></div></div>
-    <div class="dock-hint"><span>TIP</span> Drag windows by their top edge <kbd>F</kbd> Focus mode</div>
+    <div class="dock-hint"><span>TIP</span> Drag windows by their top edge</div>
   </main>
   <script src="script.js"></script>
 </body>

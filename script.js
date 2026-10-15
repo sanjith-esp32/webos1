@@ -1,68 +1,94 @@
-const windows = [...document.querySelectorAll('.window-window')];
+const desktop = document.querySelector('#desktop');
 const topbar = document.querySelector('#topbar');
 let highestIndex = 10;
-let focusStartedAt = null;
-let focusInterval = null;
+let createdWindows = 0;
 
 function bringToFront(windowElement) {
   highestIndex += 1;
   windowElement.style.zIndex = highestIndex;
   topbar.style.zIndex = highestIndex + 1;
 }
-function openWindow(id) { const windowElement = document.querySelector(`#${id}`); if (!windowElement) return; windowElement.classList.add('is-open'); bringToFront(windowElement); }
-function closeWindow(id) { document.querySelector(`#${id}`)?.classList.remove('is-open'); }
+
+function openWindow(id) {
+  const windowElement = document.querySelector(`#${id}`);
+  if (!windowElement) return;
+  windowElement.classList.add('is-open');
+  bringToFront(windowElement);
+}
+
+function closeWindow(id) {
+  document.querySelector(`#${id}`)?.classList.remove('is-open');
+}
+
 function makeDraggable(windowElement) {
   const handle = windowElement.querySelector('[data-drag-handle]');
   let pointerStart = null;
   let origin = null;
+
   handle.addEventListener('pointerdown', (event) => {
     if (event.target.closest('button')) return;
-    event.preventDefault(); bringToFront(windowElement); handle.setPointerCapture(event.pointerId);
+    event.preventDefault();
+    bringToFront(windowElement);
+    handle.setPointerCapture(event.pointerId);
     pointerStart = { x: event.clientX, y: event.clientY };
-    const bounds = windowElement.getBoundingClientRect(); origin = { x: bounds.left, y: bounds.top }; windowElement.style.transform = 'none';
+    const bounds = windowElement.getBoundingClientRect();
+    origin = { x: bounds.left, y: bounds.top };
+    windowElement.style.transform = 'none';
   });
+
   handle.addEventListener('pointermove', (event) => {
     if (!pointerStart || !origin) return;
     const nextX = Math.max(10, Math.min(window.innerWidth - windowElement.offsetWidth - 10, origin.x + event.clientX - pointerStart.x));
     const nextY = Math.max(70, Math.min(window.innerHeight - windowElement.offsetHeight - 12, origin.y + event.clientY - pointerStart.y));
-    windowElement.style.left = `${nextX}px`; windowElement.style.top = `${nextY}px`;
+    windowElement.style.left = `${nextX}px`;
+    windowElement.style.top = `${nextY}px`;
   });
+
   const stopDragging = () => { pointerStart = null; origin = null; };
-  handle.addEventListener('pointerup', stopDragging); handle.addEventListener('pointercancel', stopDragging); windowElement.addEventListener('pointerdown', () => bringToFront(windowElement));
+  handle.addEventListener('pointerup', stopDragging);
+  handle.addEventListener('pointercancel', stopDragging);
+  windowElement.addEventListener('pointerdown', () => bringToFront(windowElement));
 }
-windows.forEach(makeDraggable);
-if (window.innerWidth <= 700) {
-  windows.forEach((windowElement) => {
-    windowElement.style.left = '50%';
-    windowElement.style.top = '54%';
-  });
+
+function initializeWindow(windowElement) {
+  makeDraggable(windowElement);
+  windowElement.querySelector('[data-close]')?.addEventListener('click', () => closeWindow(windowElement.id));
 }
+
+document.querySelectorAll('.window-window').forEach(initializeWindow);
 document.querySelectorAll('[data-open]').forEach((button) => button.addEventListener('click', () => openWindow(button.dataset.open)));
-document.querySelectorAll('[data-close]').forEach((button) => button.addEventListener('click', () => closeWindow(button.dataset.close)));
 document.querySelector('#openWelcome').addEventListener('click', () => openWindow('welcome'));
 
-const notes = [
-  { title: 'The beginning', date: 'OCT 16 / 2026', body: 'A good workspace does not need to be loud to be alive. I want this place to make curiosity feel easy to return to.', quote: 'Leave a little light on for the next idea.' },
-  { title: 'Small rituals', date: 'OCT 12 / 2026', body: 'Open the notebook. Make tea. Name the thing that is pulling at your attention. Start there, even if there is no map yet.', quote: 'Momentum is often just a kind first step.' },
-  { title: 'Things noticed', date: 'OCT 04 / 2026', body: 'The best interface feels a bit like a room you have visited before: you know where the light switch is, but there is still something new on the shelf.', quote: 'Familiar does not have to mean finished.' }
-];
-const noteList = document.querySelector('#noteList');
-const noteReading = document.querySelector('#noteReading');
-function renderNote(index) { const note = notes[index]; noteReading.innerHTML = `<p class="eyebrow">ENTRY ${String(index + 1).padStart(2, '0')}</p><h2>${note.title}</h2><p class="date">${note.date}</p><p>${note.body}</p><blockquote>${note.quote}</blockquote>`; document.querySelectorAll('.note-button').forEach((button, buttonIndex) => button.classList.toggle('is-selected', buttonIndex === index)); }
-notes.forEach((note, index) => { const button = document.createElement('button'); button.className = 'note-button'; button.type = 'button'; button.innerHTML = `<strong>${note.title}</strong><small>${note.date}</small>`; button.addEventListener('click', () => renderNote(index)); noteList.appendChild(button); });
-renderNote(0);
+const ledLight = document.querySelector('#ledLight');
+const ledState = document.querySelector('#ledState');
+ledLight.addEventListener('click', () => {
+  const isOn = ledLight.classList.toggle('is-on');
+  ledLight.setAttribute('aria-pressed', String(isOn));
+  ledState.textContent = isOn ? 'ON' : 'OFF';
+  ledLight.style.background = isOn ? '#e7755d' : '#263237';
+  ledLight.querySelector('span').style.background = isOn ? '#fff4cf' : '#687477';
+  ledLight.querySelector('span').style.boxShadow = isOn ? '0 0 22px 8px rgba(255,244,207,.82)' : 'none';
+  document.querySelector('#statusText').textContent = isOn ? 'LED is glowing' : 'Two tools ready';
+});
 
-function updateClock() { document.querySelector('#clock').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
-updateClock(); setInterval(updateClock, 1000);
-
-const focusOverlay = document.querySelector('#focusOverlay');
-const focusTimer = document.querySelector('#focusTimer');
-const focusLabel = document.querySelector('#focusLabel');
-function toggleFocusMode() {
-  const active = focusOverlay.classList.toggle('is-active'); focusOverlay.setAttribute('aria-hidden', String(!active)); focusLabel.textContent = active ? 'FOCUS ACTIVE' : '';
-  if (active) { focusStartedAt = Date.now(); focusInterval = setInterval(() => { const elapsed = Math.floor((Date.now() - focusStartedAt) / 1000); focusTimer.textContent = `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(elapsed % 60).padStart(2, '0')}`; }, 500); }
-  else { clearInterval(focusInterval); focusTimer.textContent = '00:00'; }
+function addWindow() {
+  createdWindows += 1;
+  const windowElement = document.createElement('div');
+  windowElement.className = 'window-window is-open generated-window';
+  windowElement.id = `generated-window-${createdWindows}`;
+  windowElement.style.left = `${Math.min(78, 34 + createdWindows * 4)}%`;
+  windowElement.style.top = `${Math.min(74, 28 + createdWindows * 5)}%`;
+  windowElement.innerHTML = `<div class="window-bar" data-drag-handle><span class="window-kicker">NEW WINDOW</span><strong>Window ${createdWindows}</strong><button class="window-close" data-close type="button" aria-label="Close Window ${createdWindows}">×</button></div><div class="window-body generated-body"><span class="generated-mark">${String(createdWindows).padStart(2, '0')}</span><p class="eyebrow">CREATED JUST NOW</p><h2>A fresh<br /><span>surface.</span></h2><p class="body-copy">This window was made by Window Maker. Drag it anywhere, or close it when you are done.</p></div>`;
+  desktop.appendChild(windowElement);
+  initializeWindow(windowElement);
+  bringToFront(windowElement);
+  document.querySelector('#windowCount').textContent = `WINDOWS CREATED: ${createdWindows}`;
 }
-document.querySelector('#focusModeButton').addEventListener('click', toggleFocusMode);
-document.querySelector('#exitFocus').addEventListener('click', toggleFocusMode);
-document.addEventListener('keydown', (event) => { if (event.key.toLowerCase() === 'f' && event.target.tagName !== 'INPUT') toggleFocusMode(); if (event.key === 'Escape' && focusOverlay.classList.contains('is-active')) toggleFocusMode(); });
+
+document.querySelector('#addWindowButton').addEventListener('click', addWindow);
+
+function updateClock() {
+  document.querySelector('#clock').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+updateClock();
+setInterval(updateClock, 1000);

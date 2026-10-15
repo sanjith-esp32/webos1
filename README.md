@@ -14,11 +14,9 @@ Then visit `http://localhost:4173`.
 
 ## Included
 
-- Four draggable windows: Welcome, Field Notes, Pulseboard, and About
-- Generated multi-entry Field Notes app
-- Live clock and focus ordering
-- Responsive layout
-- Extra feature beyond the guide: Focus mode, with `F` shortcut and timer
-- No authentication or password gate
+ Draggable Welcome, LED, Window Maker, and generated windows
+ LED app with a clickable on/off state
+ Window Maker app that creates new draggable windows at runtime
+ Live clock and window focus management
 
 Progress notes are in `devlogs/`.
